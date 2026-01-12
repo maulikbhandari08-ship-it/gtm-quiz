@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quiz Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      padding: 30px;
+    }
+    .card {
+      background: #fff;
+      padding: 25px;
+      max-width: 800px;
+      margin: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      margin-top: 0;
+    }
+    .case {
+      background: #eef4ff;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      white-space: pre-wrap;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .options label {
+      display: block;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+    .options input {
+      margin-right: 8px;
+    }
+    button {
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .score {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Quiz Form</h1>
+
+  <h3>Case Study</h3>
+  <div class="case" id="caseText">No case provided.</div>
+
+  <form id="quizForm">
+
+    <div class="question">
+      <p id="q1Text"></p>
+      <div class="options">
+        <label><input type="radio" name="q1" value="A"> <span id="q1A"></span></label>
+        <label><input type="radio" name="q1" value="B"> <span id="q1B"></span></label>
+        <label><input type="radio" name="q1" value="C"> <span id="q1C"></span></label>
+        <label><input type="radio" name="q1" value="D"> <span id="q1D"></span></label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p id="q2Text"></p>
+      <div class="options">
+        <label><input type="radio" name="q2" value="A"> <span id="q2A"></span></label>
+        <label><input type="radio" name="q2" value="B"> <span id="q2B"></span></label>
+        <label><input type="radio" name="q2" value="C"> <span id="q2C"></span></label>
+        <label><input type="radio" name="q2" value="D"> <span id="q2D"></span></label>
+      </div>
+    </div>
+
+    <div class="question">
+      <p id="q3Text"></p>
+      <div class="options">
+        <label><input type="radio" name="q3" value="A"> <span id="q3A"></span></label>
+        <label><input type="radio" name="q3" value="B"> <span id="q3B"></span></label>
+        <label><input type="radio" name="q3" value="C"> <span id="q3C"></span></label>
+        <label><input type="radio" name="q3" value="D"> <span id="q3D"></span></label>
+      </div>
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <div class="score" id="score"></div>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+
+  function get(id) {
+    return params.get(id) || "";
+  }
+
+  document.getElementById("caseText").innerText = get("case");
+
+  document.getElementById("q1Text").innerText = get("q1");
+  document.getElementById("q1A").innerText = get("q1A");
+  document.getElementById("q1B").innerText = get("q1B");
+  document.getElementById("q1C").innerText = get("q1C");
+  document.getElementById("q1D").innerText = get("q1D");
+
+  document.getElementById("q2Text").innerText = get("q2");
+  document.getElementById("q2A").innerText = get("q2A");
+  document.getElementById("q2B").innerText = get("q2B");
+  document.getElementById("q2C").innerText = get("q2C");
+  document.getElementById("q2D").innerText = get("q2D");
+
+  document.getElementById("q3Text").innerText = get("q3");
+  document.getElementById("q3A").innerText = get("q3A");
+  document.getElementById("q3B").innerText = get("q3B");
+  document.getElementById("q3C").innerText = get("q3C");
+  document.getElementById("q3D").innerText = get("q3D");
+
+  const answers = {
+    q1: get("q1Correct"),
+    q2: get("q2Correct"),
+    q3: get("q3Correct")
+  };
+
+  document.getElementById("quizForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    let score = 0;
+
+    ["q1","q2","q3"].forEach(q => {
+      const selected = document.querySelector(`input[name="${q}"]:checked`);
+      if (selected && selected.value === answers[q]) {
+        score++;
+      }
+    });
+
+    document.getElementById("score").innerText = `You scored ${score} / 3`;
+  });
+</script>
+
+</body>
+</html>
